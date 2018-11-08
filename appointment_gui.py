@@ -1,5 +1,4 @@
 import re
-import time
 import tkinter as tk
 from datetime import datetime
 from tkinter import scrolledtext
@@ -73,10 +72,10 @@ class appointmentApp():
         self.button_get_text = tk.Button(root, text='获取短信')
         self.button_get_text.grid(row=11, column=2)
 
-        tk.Label(root, text='超时时间(s):').grid(row=11, column=3)
-        self.time_out_entry = tk.Entry(root)
-        self.time_out_entry.grid(row=11, column=4)
-        self.time_out_entry.insert(0, '300')
+        # tk.Label(root, text='超时时间(s):').grid(row=11, column=3)
+        # self.time_out_entry = tk.Entry(root)
+        # self.time_out_entry.grid(row=11, column=4)
+        # self.time_out_entry.insert(0, '300')
 
         tk.Label(root, text='获取到的验证码:').grid(row=12, column=0)
         self.verification_code_entry = tk.Entry(root)
@@ -89,8 +88,8 @@ class appointmentApp():
 
         self.button_login.config(command=self.click_login)
         self.button_get_base_info.config(command=self.click_get_base_info)
-        self.button_get_phone_num.config(command=self.click_get_phone_num())
-        self.button_get_text.config(command=self.click_get_text())
+        self.button_get_phone_num.config(command=self.click_get_phone_num)
+        self.button_get_text.config(command=self.click_get_text)
 
         root.mainloop()
 
@@ -123,7 +122,7 @@ class appointmentApp():
     def get_phone_num(self, token, item_id):
         response = requests.get(
             url='http://api.fxhyd.cn/UserInterface.aspx?action=getmobile&token={token}&itemid={item_id}&excludeno='.format(
-                token=token))
+                token=token, item_id=item_id))
         if 'success' in response.text:
             status, phone_num = response.text.split('|')
             self.log('成功获取手机号：%s' % (phone_num))
@@ -141,38 +140,25 @@ class appointmentApp():
         else:
             self.log('拉黑号码失败，手机号码：%s' % (phone_num))
 
-    def get_phone_text(self, token, phone_num, item_id, retry_time_zone):
-        '''
-        http://api.fxhyd.cn/UserInterface.aspx?action=getsms&token=TOKEN&itemid=项目编号&mobile=手机号码&release=1
-        收到短信：success|短信内容
-        短信尚未到达：3001，应继续调用取短信接口，直到超时为止。
-        请求失败：错误代码，请根据不同错误代码进行不同的处理。
-        '''
+    '''
+    http://api.fxhyd.cn/UserInterface.aspx?action=getsms&token=TOKEN&itemid=项目编号&mobile=手机号码&release=1
+    收到短信：success|短信内容
+    短信尚未到达：3001，应继续调用取短信接口，直到超时为止。
+    请求失败：错误代码，请根据不同错误代码进行不同的处理。
+    '''
 
-        def get_phone_text(token, phone_num, item_id):
-            response = requests.get(
-                url='http://api.fxhyd.cn/UserInterface.aspx?action=getsms&token={token}&itemid={item_id}&mobile={phone_num}'.format(
-                    token=token, phone_num=phone_num, item_id=item_id))
-            return response.text
-
-        start_time = datetime.now()
-        while True:
-            end_time = datetime.now()
-            if (end_time - start_time).total_seconds() > retry_time_zone:
-                self.log('获取验证码超时！%s秒' % (str(retry_time_zone)))
-                return None
-            time.sleep(3)
-            response_text = get_phone_text(token, phone_num)
-            if '3001' in response_text:
-                self.log('验证码未接受到！')
-                continue
-            else:
-                status, text = response_text.split('|')
-                identifying_code = re.sub('\D', '', text)
-                self.log('验证码获取成功，验证码：%s' % (identifying_code))
-                break
-
-        return identifying_code
+    def get_phone_text(self, token, phone_num, item_id):
+        response = requests.get(
+            url='http://api.fxhyd.cn/UserInterface.aspx?action=getsms&token={token}&itemid={item_id}&mobile={phone_num}'.format(
+                token=token, phone_num=phone_num, item_id=item_id))
+        if '3001' in response.text:
+            self.log('验证码未接受到！')
+            return None
+        else:
+            tatus, text = response.text.split('|')
+            identifying_code = re.sub('\D', '', text)
+            self.log('验证码获取成功，验证码：%s' % (identifying_code))
+            return identifying_code
 
     def click_login(self):
         token = self.get_token_by_login_yima(self.entry_username.get(), self.entry_password.get())
@@ -237,12 +223,13 @@ class appointmentApp():
             print('没有项目编号，请先输入项目编号')
             self.log('没有项目编号，请先输入项目编号')
             return
-        time_out = self.time_out_entry.get()
-        if not time_out:
-            print('没有设置超时时间')
-            self.log('没有设置超时时间')
-            return
-        verification_code = self.get_phone_text(self.token, phone_num, item_id, int(time_out))
+        # time_out = self.time_out_entry.get()
+        # if not time_out:
+        #     print('没有设置超时时间')
+        #     self.log('没有设置超时时间')
+        #     return
+        verification_code = ''
+        self.get_phone_text(self.token, phone_num, item_id)
         if verification_code:
             self.verification_code_entry.insert(0, verification_code)
 
