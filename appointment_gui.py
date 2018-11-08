@@ -5,9 +5,6 @@ from datetime import datetime
 from tkinter import scrolledtext
 
 import requests
-import validators
-from selenium import webdriver
-from selenium.webdriver.support.wait import WebDriverWait
 
 
 class appointmentApp():
@@ -15,7 +12,7 @@ class appointmentApp():
 
         self.token = None
         root = tk.Tk()
-        root.title('大众点评自动预约')
+        root.title('易码平台工具')
         # width x height + x_offset + y_offset:
         root.geometry("1200x900+30+30")
 
@@ -60,18 +57,31 @@ class appointmentApp():
         self.label_account_get_phone_max_limit = tk.Label(root)
         self.label_account_get_phone_max_limit.grid(row=8, column=1)
 
-        tk.Label(root, text='获取手机号数量（数字）:').grid(row=10, column=0)
-        self.entry_get_phone_num_count = tk.Entry(root)
-        self.entry_get_phone_num_count.grid(row=10, column=1)
-        self.entry_get_phone_num_count.insert(0, '1')
+        tk.Label(root, text='获取手机号项目编号（数字）:').grid(row=10, column=0)
+        self.entry_item_id = tk.Entry(root)
+        self.entry_item_id.grid(row=10, column=1)
+        self.entry_item_id.insert(0, '9603')
 
-        tk.Label(root, text='店铺网址（多个网址多行输入）:').grid(row=10, column=2)
-        self.text_shop_list = tk.Text(root, height=10, width=60)
-        self.text_shop_list.grid(row=10, column=3)
-        self.text_shop_list.insert(0.0, 'http://www.dianping.com/shop/23123189')
+        self.button_get_phone_num = tk.Button(root, text='获取手机号')
+        self.button_get_phone_num.grid(row=10, column=2)
 
-        self.button_appointment = tk.Button(root, text='开始预约')
-        self.button_appointment.grid(row=15, column=5)
+        tk.Label(root, text='获取到的手机号:').grid(row=11, column=0)
+        self.phone_num_entry = tk.Entry(root)
+        self.phone_num_entry.grid(row=11, column=1)
+        self.phone_num_entry.insert(0, '')
+
+        self.button_get_text = tk.Button(root, text='获取短信')
+        self.button_get_text.grid(row=11, column=2)
+
+        tk.Label(root, text='超时时间(s):').grid(row=11, column=3)
+        self.time_out_entry = tk.Entry(root)
+        self.time_out_entry.grid(row=11, column=4)
+        self.time_out_entry.insert(0, '300')
+
+        tk.Label(root, text='获取到的验证码:').grid(row=12, column=0)
+        self.verification_code_entry = tk.Entry(root)
+        self.verification_code_entry.grid(row=12, column=1)
+        self.verification_code_entry.insert(0, '')
 
         self.text_log = scrolledtext.ScrolledText(root)
         self.text_log_vertical_bar = tk.Scrollbar(root)
@@ -79,7 +89,8 @@ class appointmentApp():
 
         self.button_login.config(command=self.click_login)
         self.button_get_base_info.config(command=self.click_get_base_info)
-        self.button_appointment.config(command=self.click_appointment)
+        self.button_get_phone_num.config(command=self.click_get_phone_num())
+        self.button_get_text.config(command=self.click_get_text())
 
         root.mainloop()
 
@@ -109,9 +120,9 @@ class appointmentApp():
         else:
             return None
 
-    def get_phone_num(self, token):
+    def get_phone_num(self, token, item_id):
         response = requests.get(
-            url='http://api.fxhyd.cn/UserInterface.aspx?action=getmobile&token={token}&itemid=160&excludeno='.format(
+            url='http://api.fxhyd.cn/UserInterface.aspx?action=getmobile&token={token}&itemid={item_id}&excludeno='.format(
                 token=token))
         if 'success' in response.text:
             status, phone_num = response.text.split('|')
@@ -130,7 +141,7 @@ class appointmentApp():
         else:
             self.log('拉黑号码失败，手机号码：%s' % (phone_num))
 
-    def get_phone_text(self, token, phone_num, retry_time_zone):
+    def get_phone_text(self, token, phone_num, item_id, retry_time_zone):
         '''
         http://api.fxhyd.cn/UserInterface.aspx?action=getsms&token=TOKEN&itemid=项目编号&mobile=手机号码&release=1
         收到短信：success|短信内容
@@ -138,10 +149,10 @@ class appointmentApp():
         请求失败：错误代码，请根据不同错误代码进行不同的处理。
         '''
 
-        def get_phone_text(token, phone_num):
+        def get_phone_text(token, phone_num, item_id):
             response = requests.get(
-                url='http://api.fxhyd.cn/UserInterface.aspx?action=getsms&token={token}&itemid=160&mobile={phone_num}'.format(
-                    token=token, phone_num=phone_num))
+                url='http://api.fxhyd.cn/UserInterface.aspx?action=getsms&token={token}&itemid={item_id}&mobile={phone_num}'.format(
+                    token=token, phone_num=phone_num, item_id=item_id))
             return response.text
 
         start_time = datetime.now()
@@ -163,106 +174,7 @@ class appointmentApp():
 
         return identifying_code
 
-    def reg(self, token, phone_num, url_list):
-        browser = webdriver.Chrome()
-        # 点评注册主页
-        reg_url = 'https://www.dianping.com/reg'
-        browser.get(reg_url)
-        WebDriverWait(browser, 30).until(
-            lambda x: x.find_element_by_xpath('//*[@id="easy-login-container"]/div/iframe'))
-        time.sleep(2)
-        browser.switch_to.frame(browser.find_element_by_xpath('//*[@id="easy-login-container"]/div/iframe'))
-        WebDriverWait(browser, 30).until(
-            lambda x: x.find_element_by_id('mobile-number-textbox'))
-        time.sleep(2)
-        browser.find_element_by_id('mobile-number-textbox').send_keys(phone_num)
-        WebDriverWait(browser, 30).until(
-            lambda x: x.find_element_by_id('send-number-button'))
-        browser.find_element_by_id('send-number-button').click()
-        time.sleep(3)
-        alert_text = browser.find_element_by_class_name('alert-content').text
-        if "动态码已发送，请查看手机" in alert_text:
-            browser.find_element_by_id('password-textbox').send_keys('zidonghuazhucE!1')
-            browser.find_element_by_id('agreePolicy').click()
-            # 点击注册用户
-            identifying_code = None
-            for times in range(0, 2):
-                identifying_code = self.get_phone_text(token, phone_num, 65)
-                if identifying_code:
-                    break
-                browser.find_element_by_id('send-number-button').click()
-            if not identifying_code:
-                self.log('获取验证码超时，手机号码：%s' % (phone_num))
-                browser.close()
-                return
-
-            browser.find_element_by_id('number-textbox').send_keys(identifying_code)
-            browser.find_element_by_id('register-button').click()
-            self.log('号码：%s，注册成功！' % (phone_num))
-            time.sleep(1)
-            self.appointment(browser, url_list)
-        else:
-            self.log('号码：%s，已经被注册！' % (phone_num))
-            self.login_and_appointment(token, phone_num, url_list)
-        browser.close()
-
-    def login_and_appointment(self, token, phone_num, url_list):
-        self.log('手机验证码登陆中···')
-        browser = webdriver.Chrome()
-        # 点评注册主页
-        login_url = 'https://account.dianping.com/login'
-        browser.get(login_url)
-        WebDriverWait(browser, 30).until(
-            lambda x: x.find_element_by_xpath('//*[@id="J_login_container"]/div/iframe'))
-        time.sleep(2)
-        # browser.switch_to.frame(src ='https://www.dianping.com/account/iframeRegister?callback=EasyLogin_frame_callback0&wide=false&protocol=https:&redir=https%3A%2F%2Fwww.dianping.com')
-        browser.switch_to.frame(browser.find_element_by_xpath('//*[@id="J_login_container"]/div/iframe'))
-
-        WebDriverWait(browser, 30).until(
-            lambda x: x.find_element_by_class_name('bottom-password-login'))
-        time.sleep(2)
-        browser.find_element_by_class_name('bottom-password-login').click()
-        WebDriverWait(browser, 30).until(
-            lambda x: x.find_element_by_id('mobile-number-textbox'))
-        time.sleep(2)
-        browser.find_element_by_id('mobile-number-textbox').send_keys(phone_num)
-        identifying_code = None
-        for times in range(0,2):
-            browser.find_element_by_id('send-number-button').click()
-            identifying_code = self.get_phone_text(token, phone_num, 65)
-            if identifying_code:
-                break
-        if not identifying_code:
-            self.log('获取验证码超时，手机号码：%s'%(phone_num))
-            browser.close()
-            return
-        browser.find_element_by_id('number-textbox').send_keys(identifying_code)
-        browser.find_element_by_id('login-button-mobile').click()
-        time.sleep(2)
-        self.appointment(browser, url_list)
-        self.block_phone_num(token, phone_num)
-        browser.close()
-
-    def appointment(self, browser, url_list):
-        for url in url_list:
-            self.log('预约中：%s' % url)
-            browser.get(url)
-            WebDriverWait(browser, 30).until(
-                lambda x: x.find_element_by_css_selector('.btn.J-rs-btn'))
-            time.sleep(2)
-            browser.find_element_by_css_selector('.btn.J-rs-btn').click()
-            WebDriverWait(browser, 30).until(
-                lambda x: x.find_element_by_css_selector('.medi-btn.stress-btn.J_btnSubmit'))
-            time.sleep(2)
-            browser.find_element_by_css_selector('.medi-btn.stress-btn.J_btnSubmit').click()
-            WebDriverWait(browser, 30).until(
-                lambda x: x.find_element_by_css_selector('.medi-btn.stress-btn.J_btnCancel'))
-            time.sleep(2)
-            browser.find_element_by_css_selector('.medi-btn.stress-btn.J_btnCancel').click()
-            self.log('预约成功：%s' % url)
-            print('预约成功：%s' % url)
-
-    def click_login(self, ):
+    def click_login(self):
         token = self.get_token_by_login_yima(self.entry_username.get(), self.entry_password.get())
         if token:
             self.label_login_status.config(text="登陆成功，token值为：{token}".format(token=token))
@@ -270,7 +182,7 @@ class appointmentApp():
             self.token = token
             self.click_get_base_info()
         else:
-            self.log('失败')
+            self.log('登录失败')
             self.label_login_status.config(text="登陆失败")
 
     def click_get_base_info(self):
@@ -297,21 +209,42 @@ class appointmentApp():
             self.label_account_discount.config(text='获取失败')
             self.label_account_get_phone_max_limit.config(text='获取失败')
 
-    def click_appointment(self):
-        try:
-            get_phone_num_count = int(self.entry_get_phone_num_count.get())
-            url_list = self.text_shop_list.get(0.0, 'end').splitlines()
-            for url in url_list:
-                if not validators.url(url):
-                    self.log('店铺链接必须为真实！')
-                    return
-        except Exception:
-            self.log('输入的手机数量必须为数字！')
+    def click_get_phone_num(self):
+        if not self.token:
+            print('请先登陆！')
+            self.log('请先登陆')
             return
+        item_id = self.entry_item_id.get()
+        if not item_id:
+            print('没有项目编号，请先输入项目编号')
+            self.log('没有项目编号，请先输入项目编号')
+            return
+        phone_num = self.get_phone_num(self.token, item_id)
+        self.phone_num_entry.insert(0, phone_num)
 
-        for text_name in range(0, get_phone_num_count):
-            phone_num = self.get_phone_num(self.token)
-            self.reg(self.token, phone_num, url_list)
+    def click_get_text(self):
+        if not self.token:
+            print('请先登陆！')
+            self.log('请先登陆')
+            return
+        phone_num = self.phone_num_entry.get()
+        if not phone_num:
+            print('没有手机号，请先获取手机号')
+            self.log('没有手机号，请先获取手机号')
+            return
+        item_id = self.entry_item_id.get()
+        if not item_id:
+            print('没有项目编号，请先输入项目编号')
+            self.log('没有项目编号，请先输入项目编号')
+            return
+        time_out = self.time_out_entry.get()
+        if not time_out:
+            print('没有设置超时时间')
+            self.log('没有设置超时时间')
+            return
+        verification_code = self.get_phone_text(self.token, phone_num, item_id, int(time_out))
+        if verification_code:
+            self.verification_code_entry.insert(0, verification_code)
 
 
 appointmentApp()
