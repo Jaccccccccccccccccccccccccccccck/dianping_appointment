@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa0a1948-7826-4d8e-9585-a5f522ba160f" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dianping_appointment.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dianping_appointment.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appointment.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/appointment_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/appointment_gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,35 +14,36 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/dianping_appointment$test.coverage" NAME="test Coverage Results" MODIFIED="1528625461399" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/dianping_appointment$appointment.coverage" NAME="appointment Coverage Results" MODIFIED="1541571794488" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/dianping_appointment$appointment_gui.coverage" NAME="appointment_gui Coverage Results" MODIFIED="1541660132707" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/dianping_appointment$appointment_gui.coverage" NAME="appointment_gui Coverage Results" MODIFIED="1541743371593" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="-1913490137">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
+          <entry key="project.closed" value="3" />
           <entry key="project.open.time.1" value="3" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.open.time.2" value="1" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="932" />
+          <entry key="py" value="1104" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="932" />
+          <entry key="Python" value="1104" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="1" />
+          <entry key="py" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="1" />
+          <entry key="Python" value="2" />
         </counts>
       </usages-collector>
     </session>
@@ -56,14 +53,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/appointment_gui.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1195">
-              <caret line="176" column="24" lean-forward="true" selection-start-line="176" selection-start-column="24" selection-end-line="176" selection-end-column="24" />
+            <state relative-caret-position="1539">
+              <caret line="247" column="56" selection-start-line="247" selection-start-column="56" selection-end-line="247" selection-end-column="56" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
-                <element signature="e#3544#3642#0" />
-                <element signature="e#4177#4735#0" />
-                <element signature="e#4781#5198#0" />
-                <element signature="e#5257#5617#0" />
               </folding>
             </state>
           </provider>
@@ -93,6 +86,7 @@
       <find>sleep</find>
       <find>get_token_by_login_yima</find>
       <find>请先登陆</find>
+      <find>get_phone_text</find>
     </findStrings>
     <replaceStrings>
       <replace>print</replace>
@@ -128,7 +122,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -140,6 +133,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -266,21 +260,21 @@
     <frame x="-1440" y="-1660" width="1440" height="2560" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13876967" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14020029" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.25301206" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.18514057" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.25301206" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.18514057" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.3289166" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32891566" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32969603" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.23886138" />
-      <window_info anchor="bottom" id="Python Console" order="11" weight="0.3289166" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32931727" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.46104416" />
+      <window_info anchor="bottom" id="Python Console" order="11" weight="0.32891566" />
       <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" />
       <window_info anchor="bottom" id="Messages" order="13" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -325,8 +319,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/appointment_gui.py</url>
-          <line>177</line>
-          <option name="timeStamp" value="3" />
+          <line>221</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -352,6 +346,16 @@
       </expression>
     </expressions>
     <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>self.log('1')</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>self.log('123')</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>self.text_shop_list.get(0.0,'end')</expression-string>
         <language-id>Python</language-id>
@@ -392,11 +396,6 @@
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
-      <expression>
-        <expression-string>browser.find_element_by_class_name('alert-content').text</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
@@ -411,40 +410,21 @@
     </entry>
     <entry file="file://C:/Python36/Lib/site-packages/selenium/webdriver/remote/switch_to.py" />
     <entry file="file://$PROJECT_DIR$/geckodriver.log" />
-    <entry file="file://$PROJECT_DIR$/appointment.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3432">
-          <caret line="156" column="34" lean-forward="true" selection-start-line="156" selection-start-column="34" selection-end-line="156" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/appointment.py" />
+    <entry file="file://$PROJECT_DIR$/test.py" />
     <entry file="file://$USER_HOME$/.pyenv/versions/3.6.6/lib/python3.6/tkinter/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="832">
-          <caret line="2676" column="8" selection-start-line="2676" selection-start-column="8" selection-end-line="2676" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" column="12" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
+        <state relative-caret-position="853">
+          <caret line="2673" column="8" selection-start-line="2673" selection-start-column="8" selection-end-line="2673" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/appointment_gui.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1195">
-          <caret line="176" column="24" lean-forward="true" selection-start-line="176" selection-start-column="24" selection-end-line="176" selection-end-column="24" />
+        <state relative-caret-position="1539">
+          <caret line="247" column="56" selection-start-line="247" selection-start-column="56" selection-end-line="247" selection-end-column="56" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
-            <element signature="e#3544#3642#0" />
-            <element signature="e#4177#4735#0" />
-            <element signature="e#4781#5198#0" />
-            <element signature="e#5257#5617#0" />
           </folding>
         </state>
       </provider>
