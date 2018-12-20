@@ -2,6 +2,7 @@ import re
 import tkinter as tk
 from datetime import datetime
 from tkinter import scrolledtext
+import time
 
 import requests
 
@@ -59,7 +60,7 @@ class appointmentApp():
         tk.Label(root, text='获取手机号项目编号（数字）:').grid(row=10, column=0)
         self.entry_item_id = tk.Entry(root)
         self.entry_item_id.grid(row=10, column=1)
-        self.entry_item_id.insert(0, '9603')
+        self.entry_item_id.insert(0, '5513')
 
         self.button_get_phone_num = tk.Button(root, text='获取手机号')
         self.button_get_phone_num.grid(row=10, column=2)
@@ -237,13 +238,8 @@ class appointmentApp():
             print('没有项目编号，请先输入项目编号')
             self.log('没有项目编号，请先输入项目编号')
             return
-        # time_out = self.time_out_entry.get()
-        # if not time_out:
-        #     print('没有设置超时时间')
-        #     self.log('没有设置超时时间')
-        #     return
         verification_code = ''
-        self.get_phone_text(self.token, phone_num, item_id)
+        self.get_phone_text(self.token, phone_num, item_id, 60)
         if verification_code:
             self.verification_code_entry.delete(0, 'end')
             self.verification_code_entry.insert(0, verification_code)
